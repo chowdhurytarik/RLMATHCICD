@@ -1,0 +1,38 @@
+name: ML Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-runner:
+    runs-on: [self-hosted, linux, x64]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Display system information
+        run: |
+          echo "Running on my Ubuntu PC"
+          hostname
+          uname -a
+          python3 --version
+
+      - name: Check NVIDIA GPU
+        run: |
+          if command -v nvidia-smi >/dev/null 2>&1; then
+            nvidia-smi
+          else
+            echo "No NVIDIA GPU detected"
+          fi
+
+      - name: First CI test
+        run: |
+          python3 -c "assert 2 + 2 == 4"
+          echo "CI pipeline passed!"
