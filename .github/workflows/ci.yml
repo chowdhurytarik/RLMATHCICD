@@ -1,4 +1,4 @@
-name: ML Continuous Integration
+name: Python CI Pipeline
 
 on:
   push:
@@ -9,30 +9,33 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
-  test-runner:
+  unit-tests:
     runs-on: [self-hosted, linux, x64]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Display system information
+      - name: Display runner information
         run: |
-          echo "Running on my Ubuntu PC"
+          echo "Running CI on my Ubuntu PC"
           hostname
-          uname -a
           python3 --version
 
-      - name: Check NVIDIA GPU
+      - name: Create Python environment
         run: |
-          if command -v nvidia-smi >/dev/null 2>&1; then
-            nvidia-smi
-          else
-            echo "No NVIDIA GPU detected"
-          fi
+          python3 -m venv .venv
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install -e ".[dev]"
 
-      - name: First CI test
+      - name: Run unit tests
         run: |
-          python3 -c "assert 2 + 2 == 4"
-          echo "CI pipeline passed!"
+          .venv/bin/python -m pytest tests/
+
+      - name: CI completed
+        run: |
+          echo "All unit tests passed!"

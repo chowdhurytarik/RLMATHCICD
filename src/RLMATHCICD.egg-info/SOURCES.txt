@@ -5,6 +5,6 @@ src/RLMATHCICD.egg-info/dependency_links.txt
 src/RLMATHCICD.egg-info/requires.txt
 src/RLMATHCICD.egg-info/top_level.txt
 src/ml_project/__init__.py
-src/ml_project/ml_project/model.py
-src/ml_project/ml_project/train.py
+src/ml_project/model.py
+src/ml_project/train.py
 tests/test_model.py

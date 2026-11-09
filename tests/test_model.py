@@ -21,3 +21,13 @@ def test_model_output_finite():
     output = model(x)
 
     assert torch.isfinite(output).all()
+
+
+def test_model_parameters():
+    model = SimpleClassifier()
+
+    total_parameters = sum(
+        p.numel() for p in model.parameters()
+    )
+
+    assert total_parameters > 0
